@@ -83,9 +83,12 @@ func init() {
 		for _, device := range devices {
 			label := filepath.Base(device)
 			reallink, err := os.Readlink(device)
-			if err == nil {
-				label = filepath.Base(reallink)
+			if err != nil {
+				reallink = label
+			} else {
+				reallink = filepath.Base(reallink)
 			}
+			label = reallink
 
 			if _, ok := discovered[reallink]; ok {
 				continue
